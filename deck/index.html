@@ -10,14 +10,24 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { --vl:#6c5ce7; --vl2:#a29bfe; --bg:#14141f; }
-    .reveal-viewport { background:var(--bg); }
-    .reveal { font-family:'Inter', -apple-system, "Segoe UI", sans-serif; }
+    :root { --vl:#6c5ce7; --vl2:#a29bfe; --bg:#14141f; --r-background-color:#14141f; }
+    html, body, .reveal-viewport { background:var(--bg); }
+    .reveal .slide-background { background-color:var(--bg) !important; }
+    /* Full-bleed dark background and no paper margin when exporting to PDF */
+    @media print {
+      @page { size:1280px 720px; margin:0; }
+      html, body, .reveal-viewport, .reveal .slides section { background:var(--bg) !important; }
+    }
+    .reveal { font-family:'Inter', -apple-system, "Segoe UI", sans-serif; font-size:40px; }
     .reveal h1,.reveal h2,.reveal h3 { text-transform:none; letter-spacing:-.02em; font-weight:800; }
-    .reveal h1 { color:var(--vl2); }
-    .reveal h2 { color:#fff; }
-    .reveal section img { border-radius:8px; box-shadow:0 10px 40px rgba(0,0,0,.55); max-height:54vh; border:1px solid #2a2a3d; }
-    .reveal .logo { max-height:88px; border:none; box-shadow:none; margin:8px auto 20px; display:block; }
+    .reveal h1 { color:var(--vl2); font-size:1.9em; }
+    .reveal h2 { color:#fff; font-size:1.5em; margin-bottom:.4em; }
+    .reveal h3 { font-size:1.1em; margin:.2em 0 .5em; }
+    .reveal p { font-size:.86em; line-height:1.35; margin:.5em 0; }
+    .reveal p.small { font-size:.64em; }
+    .reveal p.tiny { font-size:.48em; }
+    .reveal section img { border-radius:8px; box-shadow:0 10px 40px rgba(0,0,0,.55); max-height:430px !important; width:auto !important; border:1px solid #2a2a3d; }
+    .reveal .logo { max-height:84px !important; width:auto !important; border:none; box-shadow:none; margin:6px auto 22px; display:block; }
     .reveal .accent { color:var(--vl2); }
     .reveal .crit { color:#ff7675; font-weight:700; }
     .reveal table { font-size:.6em; }
@@ -42,7 +52,7 @@
     <h1>Product Teardown</h1>
     <h3>5 sharpest feedbacks</h3>
     <p class="small">Yashvardhan Singh · May 2026 · Product Intern</p>
-    <p class="tiny">Tested live: marketing site · logged-in app (fresh account, Releases v2.1.6) · API docs · 8-competitor benchmark</p>
+    <p class="tiny">Tested live: marketing site · logged-in app (Releases v2.1.6) · API docs · 8-competitor benchmark</p>
   </section>
 
   <!-- 2. One-liner -->
@@ -121,10 +131,9 @@
   <!-- 6. Finding 3 -->
   <section>
     <h2>3 · "India-first" is asserted, not proven <span class="badge">HIGH</span></h2>
-    <p class="left obs">Homepage leads with generic infra ("Sub-300ms", "Any Protocol. One API") that could be Twilio. The moat ("India-first") is <b>never quantified</b>, and there's <b>no clear ICP</b>: dev, SMB, and enterprise messaging are mixed.</p>
-    <p class="left prob">On paper a buyer sees <b>Sarvam</b> (22 langs, govt-backed), <b>Gnani</b> (40+/12 Indic, 30M daily calls), <b>Smallest</b> (under 100ms), and Vocallabs loses the comparison it should win.</p>
-    <p class="left ship"><b>Quantify the moat</b> plus a 30-sec code-mixed audio demo. <b>Name one ICP</b> and lead with it: collections/BFSI (Skit-style, but self-serve) or SMBs the enterprise players ignore.</p>
-    <p class="tiny">Full 8-competitor benchmark plus Porter's Five Forces in research/competitors.md</p>
+    <p class="left obs">The homepage leads with generic infra ("Sub-300ms", "Any Protocol. One API") and <b>never quantifies</b> the India-first moat, with <b>no clear ICP</b> (dev, SMB, enterprise messaging are mixed).</p>
+    <p class="left prob">On paper a buyer sees <b>Sarvam</b> (22 langs, govt-backed), <b>Gnani</b> (40+/12 Indic, 30M daily calls), <b>Smallest</b> (under 100ms), and Vocallabs loses a comparison it should win.</p>
+    <p class="left ship"><b>Quantify the moat</b> with a 30-sec code-mixed audio demo, and <b>name one ICP</b>: collections/BFSI (Skit-style, self-serve) or SMBs the enterprise players ignore.</p>
   </section>
 
   <!-- 7. Finding 4 -->
@@ -145,9 +154,9 @@
   <!-- 8. Finding 5 -->
   <section>
     <h2>5 · Distribution assets buried, India stack unused <span class="badge">MED</span></h2>
-    <p class="left obs">An <b>n8n node</b> (confirmed, GitHub Vocallabsai) and a <b>Chrome extension</b> exist, but aren't leveraged as growth channels. No Zapier/Make. <b>Bhashini / Sarvam / AI4Bharat</b> unused.</p>
-    <p class="left prob">A PLG product with no working self-serve activation <em>and</em> no leveraged distribution has no growth engine at all.</p>
-    <p class="left ship">Get the n8n node <b>verified</b> plus publish template workflows (discovery surface). <b>Integrate Bhashini</b> to unlock gov/BFSI procurement rivals can't match. Channel play for the collections wedge.</p>
+    <p class="left obs">An <b>n8n node</b> (confirmed, GitHub Vocallabsai) and a <b>Chrome extension</b> exist but aren't used as growth channels. No Zapier/Make. <b>Bhashini / Sarvam / AI4Bharat</b> unused.</p>
+    <p class="left prob">A PLG product with no working self-serve activation <em>and</em> no leveraged distribution has no growth engine.</p>
+    <p class="left ship">Get the n8n node <b>verified</b> and publish template workflows. <b>Integrate Bhashini</b> to unlock gov/BFSI procurement, then a channel play for the collections wedge.</p>
   </section>
 
   <!-- 9. Prioritization -->
@@ -180,6 +189,6 @@
 </div></div>
 <div class="footer">Vocallabs Product Teardown · Yashvardhan Singh</div>
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
-<script>Reveal.initialize({ hash:true, slideNumber:'c/t', transition:'none', center:true, pdfMaxPagesPerSlide:1, pdfSeparateFragments:false });</script>
+<script>Reveal.initialize({ hash:true, slideNumber:'c/t', transition:'none', center:true, width:1280, height:720, margin:0.06, pdfMaxPagesPerSlide:1, pdfSeparateFragments:false, pdfPageHeightOffset:-25 });</script>
 </body>
 </html>
