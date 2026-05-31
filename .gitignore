@@ -57,3 +57,6 @@ coverage/
 # Cache
 .cache/
 *.cache
+
+# Local work directory (screenshots, research, etc.)
+plan/
