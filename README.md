@@ -10,7 +10,8 @@
 |---|---|---|
 | 📄 **Report** | The full teardown — 5 feedbacks, Observed → Problem → Ship-instead, prioritized | **[VOCALLABS_PRODUCT_TEARDOWN.md](VOCALLABS_PRODUCT_TEARDOWN.md)** |
 | 🖥️ **Deck** | Walkthrough slides (open in any browser) | **[deck/index.html](deck/index.html)** |
-| 📸 **Evidence** | Annotated screenshots behind every claim | [screenshots/](screenshots/) |
+| 🎨 **Figures & mockups** | Activation-funnel diagram, impact/effort matrix, and **design mockups** of the proposed `/pricing` page + first-run flow | [figures/](figures/) |
+| 📸 **Evidence** | Screenshots behind every observed claim | [screenshots/](screenshots/) |
 | 🔬 **Research** | Competitor benchmark, collaboration theses, API findings | [research/](research/) |
 
 ## The 5 feedbacks (TL;DR)

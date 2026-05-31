@@ -37,7 +37,11 @@ On a fresh account I followed the only sensible path — create an agent — and
 - **Quick Call → AI Agent Call →** modal says *"Select an agent and enter the phone number to start"* — but the agent dropdown is **empty** (none exist, and none can be created). `Make Call` is unreachable.
   ![Quick Call needs an agent](screenshots/03-quickcall-needs-agent.png)
 
-**The funnel:** sign up → land → try to build → *locked* → try a template → *locked* → try to call → *needs an agent you can't make* → **dead end.** The only action a new user can complete is spending money (topping up credits) on a product they cannot configure.
+**The funnel — visualized:**
+
+![Activation funnel dead-end](figures/fig1-activation-funnel.png)
+
+Sign up → try to build → *locked* → try a template → *locked* → try to call → *needs an agent you can't make* → **dead end.** The only action a new user can complete is spending money (topping up credits) on a product they cannot configure.
 
 ### (b) Problem
 This is the single most damaging issue, because it nullifies everything upstream. Marketing can be perfect and it won't matter: **time-to-first-value is infinite for a self-serve signup.**
@@ -51,6 +55,10 @@ This is the single most damaging issue, because it nullifies everything upstream
 1. **Ungate creation, gate consumption.** Let anyone build an agent and test it in a sandbox ("Production Only" toggle already exists in the call modal — lean on it). Require credits/verification only to dial real outbound numbers.
 2. **One unlocked starter template + a 5-minute guided "Create your first agent" flow** (Smallest-style: 4 questions → working agent). Activation is the metric.
 3. **If a hard gate must stay, make it self-clearing:** an in-app "Request access → instant approval for verified email/UPI" instead of a dead "Contact your account administrator" string with no admin in sight.
+
+**Mockup of the fix — a first-run activation flow** (also addresses Finding #4):
+
+![First-run activation checklist mockup](figures/fig4-firstrun-mockup.png)
 
 ---
 
@@ -72,6 +80,10 @@ This is the single most damaging issue, because it nullifies everything upstream
 1. **Publish the pricing that already exists.** A `/pricing` page: "₹1 = 1 credit, ₹100 minimum," a "1 minute ≈ X credits" calculator, and the credit cost of a typical call. This is a one-week content/marketing lift, not a strategy project.
 2. **Collapse or clearly label the two paywalls:** "Credits = how much you talk. Plan = what you can build." If the plan gate stays, surface it on the pricing page with a self-serve upgrade path.
 3. **Free starter credits** (mirror Retell's $10) so activation isn't blocked on a payment *and* a feature unlock simultaneously.
+
+**Mockup — the `/pricing` page that should replace the 404:**
+
+![Proposed pricing page mockup](figures/fig3-pricing-mockup.png)
 
 ---
 
@@ -134,6 +146,8 @@ A product whose GTM is self-serve/PLG, but which (per Finding #1) has *no workin
 ## Prioritization logic
 
 I sequenced by **"does it block value from being experienced at all?"** then by effort:
+
+![Impact vs effort prioritization matrix](figures/fig2-priority-matrix.png)
 
 | Priority | Finding | Why first | Effort |
 |---|---|---|---|
