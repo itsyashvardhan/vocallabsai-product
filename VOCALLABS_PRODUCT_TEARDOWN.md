@@ -1,352 +1,158 @@
-# Vocallabs.ai — Product Teardown & Strategic Feedback
+# Vocallabs.ai — Product Teardown
 
-**Date**: May 31, 2026  
-**Evaluator**: Claude Code  
-**Scope**: Website (vocallabs.ai), App (app.vocallabs.ai), API Docs (docs.vocallabs.ai)
+**By:** Yashvardhan · **Date:** 31 May 2026 · **For:** Vocallabs Product (Intern → PPO task)
+**Surfaces used:** `vocallabs.ai` (marketing), `app.vocallabs.ai` (logged-in product, fresh account, app v2.1.6), `docs.vocallabs.ai` (API)
 
----
-
-## Executive Summary
-
-Vocallabs has built a powerful **infrastructure-first voice AI platform** (99.9% uptime, sub-300ms latency, multi-provider routing). However, the product **conflates developer tools (API) with business use-case products**, creating confusion about *who the customer is* and *what problem is actually solved*. The GTM strategy emphasizes technical superiority over business outcomes, the onboarding flow has unnecessary friction, and critical pages are missing (pricing). Here are **5 sharp, prioritized feedbacks** to unlock growth.
+> **How to read this:** 5 feedbacks, one per product pillar (GTM, Pricing, Competition, UX, Collaborations), each as **Observed → Problem → Ship instead**, ordered by priority. Every claim is either screenshotted (`screenshots/`) or cited (`research/`). The honest one-liner: *the technology looks strong, but a brand-new user cannot actually use it — activation is broken before value is ever seen.*
 
 ---
 
-## 1. **GTM & ICP Issue: Inverted Value Hierarchy — Technical Specs ≠ Business Value**
+## Methodology (so you know I actually used it)
+
+I signed up as a real self-serve user (phone-OTP), landed in the dashboard with 0 credits, and tried to do the one thing the product exists for: **build an agent and make a call.** I could not — and *that journey* is the teardown. I also read the public API docs (to find the monetization model the website hides) and benchmarked 8 competitors incl. the India-native players, since "India-first" is the stated moat. Supporting evidence: [`screenshots/`](screenshots/) and [`research/`](research/).
+
+---
+
+## TL;DR — the 5 feedbacks, prioritized
+
+| # | Pillar | Feedback | Severity | Effort |
+|---|--------|----------|----------|--------|
+| **1** | Features / Activation | New self-serve users hit **"Feature Locked"** on the agent builder — the core loop is unreachable | 🔴 Critical | Med |
+| **2** | GTM / Pricing | Public **`/pricing` 404s**, yet a real **₹1 = 1 credit** model lives in-app — and there are **two separate paywalls** | 🔴 Critical | Low |
+| **3** | Competition / Positioning | The **"India-first" moat is asserted, unquantified, and out-gunned on paper** by Sarvam/Gnani/Smallest | 🟠 High | Med |
+| **4** | UX | Post-login you meet **14-item nav overload + a passkey nag**, not guidance — at the exact moment you're already stuck | 🟡 Med | Low |
+| **5** | Collaborations | Real distribution assets (**n8n node, Chrome ext**) are buried, and the **India AI stack** (Bhashini/Sarvam) is unused | 🟡 Med | Med |
+
+---
+
+## 1. Features / Activation — a new user literally cannot build an agent 🔴
 
 ### (a) Observed
-The homepage hero leads with infrastructure metrics:
-- "99.9% Uptime. Always."
-- "Sub-300ms. Every Call."
-- "Millions of Concurrent Calls"
-- "Any Protocol. One API."
+On a fresh account I followed the only sensible path — create an agent — and hit a wall at every door:
 
-These are **engineer-buying signals**, not customer pain signals. A sales manager doesn't care if uptime is 99.9% vs 99.99%; they care if 3x more leads close, or support costs drop 40%.
+- **Agents → Agent Studio → "Feature Locked. Agent Studio requires access… Contact your account administrator / upgrade your current plan."**
+  ![Agent Studio locked](screenshots/01-agent-studio-locked.png)
+- **Agents → Templates → also "Feature Locked."** All three Agents sub-items (Studio, Folders, Templates) show 🔒 in the sidebar.
+  ![Templates locked](screenshots/02-templates-locked.png)
+- **Quick Call → AI Agent Call →** modal says *"Select an agent and enter the phone number to start"* — but the agent dropdown is **empty** (none exist, and none can be created). `Make Call` is unreachable.
+  ![Quick Call needs an agent](screenshots/03-quickcall-needs-agent.png)
 
-The secondary section ("The Future of Enterprise Voice AI") lists 10+ sub-brands / product variants (Vocalassist, VocalStack, Hiringg, Vocallabs Identity, etc.) with zero context on what each does or why they exist. This creates **brand confusion at scale**.
+**The funnel:** sign up → land → try to build → *locked* → try a template → *locked* → try to call → *needs an agent you can't make* → **dead end.** The only action a new user can complete is spending money (topping up credits) on a product they cannot configure.
 
 ### (b) Problem
-- **ICP mismatch**: You're selling infrastructure to executives (CFOs, VPs of Sales) who think in business metrics, but your messaging is all infrastructure. This filters for tech-savvy buyers who can translate specs → value, leaving 80% of ICP unconverted.
-- **Competing narratives**: The Solutions dropdown (FAQ Bots, Appointment Bots, Debt Collection) **contradicts the API-native positioning**. Are you a no-code bot builder or an API infrastructure play?
-- **Brand sprawl kills credibility**: When a prospect sees "Vocallabs," "Vocalassist," "VocalStack," and "Hiringg" on one page with no hierarchy, it looks like a acqui-hire rollup, not a coherent product. They assume you're either unfocused or buried in legacy.
+This is the single most damaging issue, because it nullifies everything upstream. Marketing can be perfect and it won't matter: **time-to-first-value is infinite for a self-serve signup.**
+- It directly contradicts Vocallabs' own distribution strategy — an SDK, an n8n node, a Chrome extension all scream *product-led, self-serve*, but the product gates the first step behind "contact an admin."
+- Competitors weaponize the opposite: Retell gives **$10 free credits** and "go live in minutes"; Smallest.ai lets you **build a working agent in 5 minutes** by answering 4 questions. A developer evaluating all three will activate on the other two and never return.
+- It silently dumps load on sales/support ("why can't I build an agent?") for users who should have self-served.
 
-### (c) Ship Instead
+**Tradeoff I considered:** gating is probably intentional — abuse prevention, telephony cost control, or a sales-qualified motion. Fair. But the gate is in the **wrong place**: it blocks *building and learning* (zero marginal cost) instead of *outbound dialing* (the actual cost/abuse surface).
 
-**A. Redesign the homepage hero for **outcome-led messaging per ICP:**
-
-- **For VP of Sales / Revenue Teams**: "Close 30% more deals with AI-powered lead qualification calls — hands-off, 24/7."
-- **For Contact Centers / Support**: "Cut support costs 60% with AI FAQ agents. Deploy in hours, not sprints."
-- **For Developers / Technical Buyers**: "Build and ship voice AI in minutes. Handle 10x traffic with 1 API." (tuck this as secondary CTA)
-
-**B. Consolidate the brand house immediately:**
-- Kill sub-brand listings on the homepage (or move to a separate "Partner Products" footer).
-- Use a **clear product hierarchy**: "Vocallabs **Platform**" (the APIs + infrastructure) vs. "Vocallabs **Solutions**" (pre-built templates like FAQ Bot, Appointment Bot).
-- One logo, one brand, one story.
-
-**C. Add an ICP selector above the fold:**
-```
-[I'm a developer building voice apps] [I'm scaling sales/support] [I want pre-built bots]
-```
-Route to different landing pages with tailored messaging.
-
-**Why this works**: 
-- Executives convert faster when you speak their language (revenue, time, cost).
-- Removing brand confusion removes the "this looks disorganized" gut-check that kills deals at the exec committee stage.
-- Multiple ICPs → multiple landing pages = higher conversion than one-size-fits-none homepage.
+### (c) Ship instead
+1. **Ungate creation, gate consumption.** Let anyone build an agent and test it in a sandbox ("Production Only" toggle already exists in the call modal — lean on it). Require credits/verification only to dial real outbound numbers.
+2. **One unlocked starter template + a 5-minute guided "Create your first agent" flow** (Smallest-style: 4 questions → working agent). Activation is the metric.
+3. **If a hard gate must stay, make it self-clearing:** an in-app "Request access → instant approval for verified email/UPI" instead of a dead "Contact your account administrator" string with no admin in sight.
 
 ---
 
-## 2. **UX Issue: Missing Pricing Page — Willingness-to-Buy Signal Lost**
+## 2. GTM / Pricing — the price is a 404 on the web but a credit model in the app 🔴
 
 ### (a) Observed
-Vocallabs.ai/pricing → **HTTP 404 "This page could not be found."**
-
-There is **zero pricing information visible anywhere** on the public site. Prospects must contact sales to learn costs.
+- `vocallabs.ai/pricing` returns **HTTP 404** ([screenshot](screenshots/05-pricing-404.png)). No pricing appears anywhere on the public site.
+- Yet **inside the app**, the Wallet reveals the real model: **"1₹ = 1 credit,"** top-up tiers 100/500/1k/5k, **minimum ₹100**.
+  ![Wallet: 1 rupee = 1 credit](screenshots/04-wallet-rupee-credit.png)
+- The API confirms a metered wallet (`wallet` / "Get Wallet Balance" endpoints — see [`research/docs-api.md`](research/docs-api.md)).
+- **Two distinct paywalls exist:** *credits* (usage) **and** a separate *"plan/admin access"* gate on Agent Studio. Buying credits does **not** unlock the builder.
 
 ### (b) Problem
-- **Buying intent flows through sales contact forms.** A prospect landing on /pricing has already decided they want to evaluate you — they're 80% of the way through the buying process. A 404 forces them to:
-  - Hunt for pricing on the docs site (not there).
-  - Search the nav for "Contact Sales" (bad UX).
-  - Or bounce and evaluate competitors who publish pricing (Twilio, Voicebase, etc.).
-- **Pricing creates urgency + credibility.** When you publish pricing, you're saying "we're confident in our value and we're not hiding behind a sales call." Hiding pricing signals you're expensive or you lack conviction.
-- **Sales has to educate every prospect on pricing.** That's 10-30 minutes of rep time per early-stage lead that could be compressed with self-service comparison ("Pro plan: $2K/month + $0.03/call").
+- **Self-serve buyers can't qualify themselves.** Retell ($0.07/min + $10 free), Bland ($0.09/min), Smallest (₹/$49/$1,999) all let a prospect price the decision in seconds. Vocallabs forces a sales conversation for a number it has *already decided* (₹1/credit) and *already shows logged-in users*. Hiding it adds friction and signals "expensive/unsure," with zero upside.
+- **The two-paywall split is genuinely confusing.** A user can pay ₹100, still be unable to build, and get no in-product explanation of why or how to gain "access." That's a refund/chargeback and trust risk.
+- It also undercuts the **India-first** story: ₹-denominated, prepaid-credit pricing is a *real* local-market advantage (no forced USD card) — and it's invisible to every prospect who hasn't already logged in.
 
-### (c) Ship Instead
-
-**A. Create a public pricing page immediately (2-week lift):**
-
-```
-Vocallabs Pricing
-
-Free Tier
-- 1,000 API calls/month
-- 1 phone number
-- No SLA
-→ Use to build + test
-
-Pro ($2,000/month + $0.03/call)
-- Unlimited numbers in 50+ countries
-- 99.9% SLA
-- Email + Slack support
-→ For small teams, < 100K calls/month
-
-Enterprise (custom)
-- Dedicated infrastructure
-- Custom SLA / prioritized support
-- Model/carrier integrations
-→ For 1M+ calls/month, custom contract
-```
-
-**B. Add a **pricing calculator** below (reduces sales friction):**
-- "How many calls per month?" → slider
-- "Estimated monthly bill: $[X] + $[Y] overage"
-- "Questions? Schedule a demo" (link to Calendly, not generic contact form)
-
-**C. Add 3-4 customer testimonials with **actual outcomes per price tier:**
-- "Reduced support costs by 60% on Pro plan" — [Company Logo]
-- "Scaled to 5M calls/month on Enterprise" — [Company Logo]
-
-**Why this works**:
-- Pricing page is a **forcing function** for your sales team to think about packaging (are 3 tiers optimal? should it be per-minute or per-call?).
-- Prospects self-qualify: a startup with 10K calls/month immediately sees "this is $35/month + overage," stops reading, and either buys or leaves (both outcomes are good).
-- Transparent pricing builds trust. Hiding it builds doubt.
+### (c) Ship instead
+1. **Publish the pricing that already exists.** A `/pricing` page: "₹1 = 1 credit, ₹100 minimum," a "1 minute ≈ X credits" calculator, and the credit cost of a typical call. This is a one-week content/marketing lift, not a strategy project.
+2. **Collapse or clearly label the two paywalls:** "Credits = how much you talk. Plan = what you can build." If the plan gate stays, surface it on the pricing page with a self-serve upgrade path.
+3. **Free starter credits** (mirror Retell's $10) so activation isn't blocked on a payment *and* a feature unlock simultaneously.
 
 ---
 
-## 3. **Competitor Analysis: Unclear Differentiation vs. Twilio + Anthropic Claude**
+## 3. Competition / Positioning — "India-first" is asserted, not proven, and contested 🟠
 
 ### (a) Observed
-**Vocallabs' positioning:**
-- "Any Protocol. One API" (SIP, Telecom, WebRTC)
-- "Model routing" (swap LLMs, TTS, ASR providers on the fly)
-- "Sub-300ms latency" + "99.9% uptime"
-
-**Competitor positioning:**
-- **Twilio Programmable Voice**: "Build voice apps with flexible APIs" + integrated SMS/video. Market leader. $0.013/min inbound, $0.025/min outbound.
-- **Anthropic Claude** (if packaging voice+LLM tighter): "Claude in your voice calls" — direct LLM reasoning, no training required.
-- **Vapi** / **Retell**: Pre-built voice bot builders (no-code, faster to market for simple use cases).
-
-**Your edge is:**
-- Sub-300ms latency (faster than Twilio for real-time scenarios like live call interruption / sentiment detection).
-- Multi-model routing (if a competitor's LLM is down, switch to Claude or Llama in real-time).
-- India-first tuning (local accents, languages).
-
-**But the website doesn't surface these.**
+- The homepage leads with **generic infrastructure specs** — "99.9% Uptime," "Sub-300ms," "Any Protocol. One API." These describe Twilio/Vapi too; they don't say *why Vocallabs*.
+- The stated moat is **"India-first: tuned for local languages, accents & workflows"** — but the site **never quantifies it** (no language count, no accent/code-mixing demo, no benchmark).
+- Meanwhile the India-native field is crowded and specific (full data in [`research/competitors.md`](research/competitors.md)):
+  - **Sarvam AI** — 22 Indian languages, **government-backed** (GoI, Nvidia, Yotta), "pilot to production in <24h."
+  - **Gnani.ai** — 40+ languages incl. **12+ Indic**, **30M+ daily voice conversations**, enterprise voice biometrics.
+  - **Smallest.ai** — 30+ languages, **<100ms** TTS latency, transparent self-serve tiers.
 
 ### (b) Problem
-- **Positioning is generic.** "Any Protocol. One API" could describe Twilio (which has *better* global reach and cheaper pricing).
-- **No comparative proof points.** You don't say, "3x lower latency than Twilio," or "Deploy in hours vs. weeks," or "Supports 8 Indian languages out-of-box."
-- **Vapi / Retell are winning on ease.** If I want a simple FAQ bot, Vapi's no-code builder is faster. You don't emphasize when/why an API-first approach *wins* (e.g., custom logic, real-time fallback, intent routing).
-- **LLM switching isn't highlighted as a moat.** In a world where LLM model quality changes monthly, the ability to swap providers without redeploying is powerful — but you bury it under "Model routing."
+The one thing that could differentiate Vocallabs is the one thing it doesn't substantiate. On paper, a buyer comparing tabs sees Sarvam's "22 languages + govt backing" vs. Vocallabs' unquantified "India-first" — and Vocallabs loses the comparison it should win. Generic infra positioning also drops Vocallabs into a fight with Twilio (better global reach) and Retell/Bland (cheaper, transparent) where it has no edge.
 
-### (c) Ship Instead
-
-**A. Add a **Competitive Advantage Matrix** (in a resources/case studies page):**
-
-| Feature | Vocallabs | Twilio | Vapi |
-|---------|-----------|--------|------|
-| Latency (p99) | 280ms | 800ms+ | 600ms |
-| Multi-LLM routing (hot-swap) | ✓ | ✗ | ✗ |
-| India language support (8+) | ✓ | 2-3 | 1-2 |
-| No-code UI | ✗ | ✗ | ✓ |
-| Global phone numbers | ✓ (50+) | ✓ (160+) | ✓ (140+) |
-| Pricing | $2K + $0.03/call | $0.013/min | Usage-based |
-
-Then explain *when* to pick each (Twilio for global scale, Vapi for speed-to-bot, Vocallabs for latency + India + routing).
-
-**B. Create **"Getting Started" case studies by use case:**
-- "Debt Collection Agents: Sub-100ms latency enables real-time sentiment → escalation routing" (showing *why* your speed matters).
-- "Multi-Agent Failover: When Claude hits rate limits, route to Llama without dropping calls" (showing the real moat).
-- "Hindi/Marathi Support: Out-of-box regional language support vs. 4-week custom training at competitors" (India-first differentiation).
-
-**C. Add a **Why Vocallabs vs. Twilio** FAQ section on docs:**
-- "Twilio is 160-country global telephony. Vocallabs is 300ms voice AI for emerging markets. Choose Vocallabs if you need latency + local language + LLM flexibility."
-
-**Why this works**:
-- You stop competing on price (where Twilio wins) and price on *speed + localization + flexibility*.
-- Prospects self-segment: "I need global scale" → Twilio. "I need India latency + Hindi" → Vocallabs.
-- Case studies convert faster than spec sheets because they're proof, not promises.
+### (c) Ship instead
+1. **Quantify the moat, loudly:** "X Indian languages, Hindi-English code-mixing handled, regional-accent tuned" with a **30-second live audio demo** of a code-mixed call. Show, don't assert.
+2. **Pick a wedge instead of "enterprise voice AI for everyone."** Two credible options: (a) **collections/BFSI** like Skit.ai but self-serve, or (b) **Indian SMBs** (clinics, real-estate, coaching) that Sarvam/Gnani's 6–9-month enterprise motion ignores — and that the ₹-credit model is perfect for.
+3. **Reframe latency/uptime as proof points *under* an outcome headline**, not the headline itself ("Recover 30% more overdue payments" > "Sub-300ms").
 
 ---
 
-## 4. **Features / Services: Call Flow Builder Is Hidden — Main Product Story Is Broken**
+## 4. UX — login succeeds, then you meet overload instead of onboarding 🟡
 
 ### (a) Observed
-The **Vocallabs.md task brief** mentions:
-> "Intelligent Call Flow Builder for customizable AI call scripts"
-
-This is a **core feature** — the bridge between "API infrastructure" and "use cases." Yet it's **completely invisible on the website, the homepage, and even the Solutions pages.**
-
-Instead, the website leads with:
-- "GET STARTED ⚡ 2 mins" (vague, links to OTP login)
-- API documentation
-- Pre-built use cases (FAQ Bot, Appointment Bot) with no UI/demo
-
-There's **no product tour, no 30-second video demo, no screenshot** showing what the Call Flow Builder looks like.
+- The left nav has **14 top-level items**: Home, Agents, Call Audits, Contacts, Channels, Campaign, vocalQR, Analytics, Phone Numbers, Library, Transactions, Vocal Flows, EazyReach, Settings ([dashboard screenshot](screenshots/06-dashboard-nav.png)).
+- **Three overlapping agent-ish surfaces** — "Agent Studio," "Vocal Flows," "Templates" — with no explanation of how they differ.
+- **Opaque brand-named features** — "vocalQR," "EazyReach" — no tooltip or first-run hint.
+- A **"Secure Your Account / Enable Passkey" nag fires immediately**, before the user has created anything.
+- No first-run checklist or guided setup anywhere.
 
 ### (b) Problem
-- **Prospects don't know the product exists.** A VP of Support lands on the site, reads "deploy FAQ agents," gets excited, then hits the app and sees an OTP login with zero onboarding. They don't know if a visual no-code builder is on the other side.
-- **Feature/benefit disconnect.** "Customizable AI call scripts" is powerful, but you're selling infrastructure (sub-300ms latency) and use cases (FAQ Bot) as if they're separate products.
-- **Competitive weakness exposed.** Vapi's strength is visual drag-and-drop. If your Call Flow Builder is also visual (and better), you're not saying so. If it's code-only, you're losing non-technical buyers to Vapi.
+This compounds Finding #1: at the precise moment a new user is *already* stuck behind a locked builder, the UI hands them maximum cognitive load and a security upsell for an account that contains nothing. It reads as a power-tool built for existing internal users, not for the self-serve developer the GTM is courting. High-overwhelm + zero-guidance + locked-core = predictable early churn.
 
-### (c) Ship Instead
-
-**A. Add a **"Build in Minutes"** product tour section (hero-level prominence):**
-
-Replace or supplement the current hero section with:
-```
-Hero: "Deploy Custom Voice Agents in Hours"
-
-[Video walkthrough — 60 seconds, showing]:
-1. Click "Create Call Flow" 
-2. Drag in blocks: "Greeting" → "Intent Classifier" → "Route to Agent"
-3. Publish to phone numbers
-4. Conversation dashboard shows sentiment, transcript, outcomes
-
-[CTA]: "Start Building Free"
-```
-
-**B. Screenshot the Call Flow Builder interface prominently:**
-- If it's visual, show the canvas (node-based, Zapier-like).
-- If it's code, show the code editor with syntax highlighting and quick-start templates.
-- Annotate with: "No coding required" (if true) or "Full Python/JavaScript support" (if applicable).
-
-**C. Separate the **"For Developers"** and **"For Business Users"** onboarding flows:**
+### (c) Ship instead
+1. **A first-run activation checklist** ("1. Create agent · 2. Add a number · 3. Make a test call") that *is* the home screen until completed — turn the empty dashboard into a path.
+2. **Group the 14 items into ~4 buckets:** Build (Agents/Flows/Templates), Run (Campaign/Channels/Phone Numbers), Analyze (Analytics/Call Audits), Manage (Contacts/Library/Transactions/Settings).
+3. **Defer the passkey prompt** until after first value; **rename or tooltip** vocalQR/EazyReach so they're self-explanatory.
 
 ---
 
-**For Business Users (Sales / Support Managers):**
-- "Build agents with our visual Call Flow Builder"
-- No-code, pre-built templates
-- Hero focuses on "reduce support costs" + dashboard
-
----
-
-**For Developers:**
-- "Build voice AI with APIs"
-- Code snippets, SDK docs, multi-language support
-- Hero focuses on "sub-300ms latency" + model routing
-
----
-
-**D. Launch a **5-minute Loom video** showing:
-1. Logging in with credentials
-2. Creating a simple FAQ agent (no code, drag-and-drop)
-3. Publishing to a test number
-4. Making a test call
-5. Reviewing transcript + sentiment
-
-Post on the homepage and in the docs. This **compresses 30 minutes of sales discovery into 5 minutes of self-serve.**
-
-**Why this works**:
-- The Call Flow Builder is your killer feature — it bridges the gap between "we're a platform" (Twilio territory) and "we're a solution" (Vapi territory).
-- Most prospects decide in 90 seconds whether they want to keep reading. A 60-second demo is worth a 10-paragraph feature list.
-- Separating buyer personas prevents the "is this for me?" confusion that causes bounces.
-
----
-
-## 5. **UX: Unnecessary Friction in the Onboarding — Phone OTP Is a Conversion Killer**
+## 5. Potential Collaborations — distribution assets buried, India AI stack unused 🟡
 
 ### (a) Observed
-The app login flow (app.vocallabs.ai):
-1. User lands on login page
-2. "Intelligent Voice Conversations" headline
-3. Phone number input (with "+91" default for India)
-4. "Send OTP" button
-5. No email option visible
-6. No "Sign Up" link
-7. No "Forgot Password" recovery flow visible
-8. Privacy Policy link (small text)
-
-**This is the first thing a prospect sees when they click "GET STARTED."** Currently, it's:
-- Unclear if they're logging in or signing up
-- Phone-only (no email alternative)
-- No trust signals (no company logos, testimonials, or "protected by" badges)
-- No explainer of what happens *after* OTP
+- Vocallabs **already ships an n8n community node** (confirmed: GitHub `Vocallabsai`) and a **Chrome extension** — but neither is surfaced as a growth/distribution lever in-product or on-site. No Zapier/Make presence found.
+- The India-specific AI stack — **Bhashini** (Govt of India language initiative), **Sarvam / AI4Bharat** models — is not leveraged, despite being the obvious accelerant for the "India-first" claim and for public-sector/BFSI procurement.
+- Telephony/CPaaS incumbents with DLT compliance + installed base (**Exotel, Ozonetel**) and **WhatsApp** (via a BSP) are natural rails. Full analysis in [`research/collaborations.md`](research/collaborations.md).
 
 ### (b) Problem
-- **Phone OTP is a friction point for non-India users.** A prospect from the US, EU, or Southeast Asia will hesitate before entering their personal phone number into an unknown platform. SMS-based auth also has UX gaps: "OTP sent... where? To my number in which country?"
-- **No email signup is a red flag.** Every modern SaaS offers email + password (or SSO). Phone-only suggests this is a simplified app, not a serious platform.
-- **Unclear conversion path.** The page doesn't say, "New users: click Sign Up. Existing users: log in." It just has a login form, which confuses first-time visitors.
-- **Missing trust signals.** There are zero customer logos, security badges, or testimonials on this page. The only trust signal is "Privacy Policy" (in 10pt font). A prospect seeing this page thinks, "Is this a real company or a sketchy startup?"
+A product whose GTM is self-serve/PLG, but which (per Finding #1) has *no working self-serve activation* **and** doesn't lean on its own distribution surfaces, has no growth engine at all. The collaboration assets that could compound — n8n template workflows, a Bhashini integration that unlocks government tenders — are sitting unused.
 
-### (c) Ship Instead
-
-**A. Split onboarding by auth method (2 tabs):**
-
-```
-[Sign Up] [Log In]
-
---- Sign Up Tab ---
-Email: [___________]
-Password: [________]
-Company: [________]
-[Create Account]
-
---- Log In Tab ---
-Email: [___________]
-Password: [________]
-[Log In]
-[Forgot Password?]
-
-[Or continue with Google] [Or continue with GitHub]
-
---- Phone Auth (Advanced) ---
-[+91] [_____________]
-[Send OTP]
-(Toggle: "I prefer phone-based login")
-```
-
-**B. Add trust signals above the fold:**
-```
-[Trusted by] [Acme Logo] [Beta Co] [Growth Inc]
-[SOC 2 Certified] [Encrypted] [GDPR Compliant]
-(Small badges, 1 line, above the form)
-```
-
-**C. Add a **1-sentence explainer below the headline:**
-"Create a free account to build, test, and deploy voice agents. Takes 2 minutes."
-
-**D. After OTP is sent, show a clear next step:**
-"OTP sent to +91XXXXXXX. Check SMS. Didn't receive it? [Resend] [Use email instead]"
-
-**Why this works**:
-- Email signup is a **conversion-rate flywheel**. More people can and *will* sign up via email, so your user growth accelerates.
-- SSO (Google, GitHub) removes friction for the majority of developers.
-- Phone auth becomes an *option*, not the default — keeping it for India-first users but not alienating global buyers.
-- Trust badges (SOC 2, encryption, GDPR) tell a prospect *you've thought about their concerns*. One-line badges convert 5-10% of bouncing visitors.
+### (c) Ship instead
+1. **Make the n8n node a real channel:** get it *verified* in the n8n registry and publish 3–5 template workflows ("AI call on new lead," "abandoned-cart COD confirmation call") — these are discovery surfaces, not just connectors.
+2. **Integrate Bhashini** as an explicit option — it's a credibility + procurement unlock for gov/BFSI that global rivals structurally can't match.
+3. **Channel play for the collections wedge** (Finding #3): partner with mid-size collection agencies / BPOs, leading with the hybrid AI↔human handoff + analytics so it augments rather than threatens their agents.
 
 ---
 
-## Prioritization & Timeline
+## Prioritization logic
 
-### Ship in next 30 days (quick wins):
-1. **Add email signup** to onboarding (1 week, high conversion lift)
-2. **Fix pricing page** + add calculator (1 week, answers "can we afford this?")
-3. **Publish 5-minute product demo** (loom video) (3 days, fills the "what is the Call Flow Builder?" gap)
+I sequenced by **"does it block value from being experienced at all?"** then by effort:
 
-### Ship in next 60 days (medium lift):
-4. **Redesign homepage for outcome-led messaging** (2-3 weeks, requires brand strategy → copy → design)
-5. **Create case studies / competitive matrix** (2 weeks, requires sales + customer interviews)
+| Priority | Finding | Why first | Effort |
+|---|---|---|---|
+| **P0 — this week** | #2 Publish pricing | The data already exists in-app; pure publish. Highest ROI/effort. | Low |
+| **P0 — this month** | #1 Ungate activation | Nothing else matters until a new user can reach value. | Med |
+| **P1** | #4 First-run UX | Cheap, and multiplies the payoff of #1. | Low |
+| **P1** | #3 Quantify India moat | Needs content + a demo asset; defines positioning. | Med |
+| **P2** | #5 Collaborations/distribution | Compounding growth once #1 makes self-serve real. | Med |
 
-### Ship by end of Q3 (longer term):
-6. **Call Flow Builder UI overhaul** (if not already polished) — this is your killer feature; invest here
-7. **Consolidate sub-brands** (Vocalassist, VocalStack, Hiringg) into a clear hierarchy
-
----
-
-## Summary Scorecard
-
-| Pillar | Status | Impact |
-|--------|--------|--------|
-| **GTM & ICP** | ⚠️ Needs realignment | High — Inverted messaging (infra → business) filters wrong buyers |
-| **Pricing** | 🔴 Missing entirely | High — 404 page kills willingness-to-buy signal |
-| **Competitor Positioning** | ⚠️ Vague | Medium-High — Unclear why Vocallabs > Twilio or Vapi |
-| **Call Flow Builder** | 🟡 Invisible | High — Core product feature is hidden; drives demos → conversions |
-| **Onboarding UX** | ⚠️ Friction point | Medium — Phone-only auth + no email kills 20-30% global signup intent |
+## If I owned this from Day 1 (30 / 60 / 90)
+- **30 days:** ship `/pricing` (#2); run an activation audit and ungate a sandbox agent + 1 template (#1); add the first-run checklist (#4).
+- **60 days:** instrument the activation funnel (signup → first agent → first test call → first paid call) and move the first-agent rate; ship the quantified India-first page + code-mixed audio demo (#3).
+- **90 days:** verified n8n listing + template workflows and a Bhashini integration spike (#5); pick and pressure-test one wedge vertical (collections or SMB).
 
 ---
 
-## Closing Note
-
-Vocallabs has **strong technology and clear use cases**. The issue isn't the product — it's **not enough clarity on who should buy it and why.** Your infrastructure is world-class, but infrastructure doesn't sell itself; outcomes do. Rebalance messaging toward business value (faster deals, lower costs) and make the onboarding frictionless (email signup, transparent pricing), and you'll see conversion rates climb.
+## Appendix
+- 📸 [`screenshots/`](screenshots/) — evidence for every observed claim
+- 📊 [`research/competitors.md`](research/competitors.md) — 8-competitor benchmark + Porter's Five Forces (cited)
+- 🤝 [`research/collaborations.md`](research/collaborations.md) — partnership theses across distribution / telephony / CRM / LLM / channel
+- 🔌 [`research/docs-api.md`](research/docs-api.md) — API-surface findings (two identity models, wallet billing, hidden Campaign/Marketplace)
+- 🗒️ Process notes and full session log in `plan/` (working directory, not part of the submission)

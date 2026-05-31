@@ -25,14 +25,12 @@ build/
 .next/
 out/
 
-# Browser automation (screenshots, recordings, etc.)
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.webp
+# Browser automation recordings / video
 *.webm
 *.mp4
+
+# Note: deliverable screenshots in screenshots/ ARE tracked (they are evidence).
+# Raw scratch screenshots live in plan/ which is ignored below.
 
 # Logs
 *.log

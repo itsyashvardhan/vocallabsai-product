@@ -1,55 +1,28 @@
-# Vocallabs.ai Product Teardown
+# Vocallabs.ai — Product Teardown
 
-A strategic product analysis and comprehensive feedback report for Vocallabs.ai, an AI voice agent platform for enterprise automation.
+> Product Intern → PPO task. **5 sharpest feedbacks** across the product pillars, from actually using the product as a new customer.
 
-## Contents
+**The one-liner:** The technology looks strong (99.9% uptime, sub-300ms, multi-model routing) — but **a brand-new user cannot actually use it.** Activation is broken before value is ever seen. So this teardown isn't a website review; I signed up, tried to build an agent and make a call, hit a wall, and *that journey* is the finding.
 
-- **`plan/VOCALLABS_PRODUCT_TEARDOWN.md`** — Main teardown report with 5 prioritized product feedbacks across:
-  - GTM & ICP (Go-To-Market & Ideal Customer Profile)
-  - Pricing & Monetization
-  - Competitive Positioning
-  - Feature Visibility & Product Tour
-  - Onboarding UX & Conversion Friction
+## 📦 Deliverables
 
-## Report Structure
+| | What | Open it |
+|---|---|---|
+| 📄 **Report** | The full teardown — 5 feedbacks, Observed → Problem → Ship-instead, prioritized | **[VOCALLABS_PRODUCT_TEARDOWN.md](VOCALLABS_PRODUCT_TEARDOWN.md)** |
+| 🖥️ **Deck** | Walkthrough slides (open in any browser) | **[deck/index.html](deck/index.html)** |
+| 📸 **Evidence** | Annotated screenshots behind every claim | [screenshots/](screenshots/) |
+| 🔬 **Research** | Competitor benchmark, collaboration theses, API findings | [research/](research/) |
 
-Each feedback follows a **Problem-Observed-Solution** framework:
+## The 5 feedbacks (TL;DR)
 
-1. **(a) Observed** — Specific screenshots, UI flows, and copy from the actual product
-2. **(b) Problem** — Why it matters (business & user impact)
-3. **(c) Ship Instead** — Concrete, actionable solutions with implementation details
+1. 🔴 **Features / Activation** — New self-serve users hit **"Feature Locked"** on Agent Studio *and* Templates; Quick Call needs an agent that can't be created. The core loop is unreachable. *(Time-to-first-value = ∞.)*
+2. 🔴 **GTM / Pricing** — `/pricing` **404s**, yet the app's Wallet shows a real **₹1 = 1 credit** model. And there are **two separate paywalls** (credits *and* "plan access") — pay ₹100 and you still can't build.
+3. 🟠 **Competition** — "India-first" is **asserted but never quantified**, while Sarvam (22 langs, govt-backed), Gnani (40+/12 Indic, 30M daily calls), and Smallest (<100ms) out-gun it on paper.
+4. 🟡 **UX** — Post-login is **14-item nav overload + a premature passkey nag**, not guidance — compounding the locked dead-end.
+5. 🟡 **Collaborations** — A real **n8n node + Chrome extension** exist but are buried; the **India AI stack** (Bhashini/Sarvam/AI4Bharat) is unused.
 
-## Key Findings Summary
-
-| Finding | Status | Priority |
-|---------|--------|----------|
-| Homepage messaging prioritizes infrastructure specs over business outcomes | ⚠️ Needs realignment | **30 days** |
-| Pricing page returns HTTP 404; zero transparency | 🔴 Critical | **30 days** |
-| Call Flow Builder (core product) is completely invisible | 🟡 High visibility gap | **30 days** |
-| Onboarding uses phone-only OTP; no email option | ⚠️ Friction point | **30 days** |
-| Positioning vs. Twilio/Vapi is generic and uncompetitive | ⚠️ Needs differentiation | **60 days** |
-
-## How to Use This Report
-
-- **For Product/GTM Leadership**: Review the Prioritization & Timeline section (end of report) for a 90-day shipping roadmap
-- **For Design/Frontend**: Focus on sections 4 & 5 (Call Flow Builder visibility + onboarding UX)
-- **For Marketing/Sales**: Use sections 1, 2, and 3 for messaging refresh, pricing strategy, and competitive positioning
-- **For Founders**: Read the Executive Summary + Closing Note for strategic context
-
-## Scope
-
-- **Analyzed**: vocallabs.ai (marketing site), app.vocallabs.ai (product app), docs.vocallabs.ai (API documentation)
-- **Evaluation Date**: May 31, 2026
-- **Framework**: 5Ps (Product, Price, Place, Promotion, People) + Porter's Five Forces for competitive context
-
-## Feedback Structure
-
-- **Real observations** backed by specific UI/copy screenshots
-- **Non-obvious insights** on conversion friction and buyer psychology
-- **Actionable solutions** with rough effort estimates (1 week, 2 weeks, etc.)
-- **Prioritization logic** based on impact vs. effort
-- **Tradeoff thinking** (e.g., phone OTP for India-first users vs. global UX)
+## How this was produced
+Logged into `app.vocallabs.ai` as a fresh account (v2.1.6) and traced the activation funnel; read `docs.vocallabs.ai` for the monetization model the site hides; benchmarked 8 competitors incl. India-native players. Every claim is screenshotted or cited — no invented numbers.
 
 ---
-
-**Note**: This report assumes the user has direct access to the Vocallabs platform and is positioned for internal stakeholders making product decisions.
+*Working notes / full session log live in `plan/` (not part of the submission).*

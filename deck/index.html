@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vocallabs.ai — Product Teardown</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+  <style>
+    :root { --vl:#6c5ce7; --vl2:#a29bfe; }
+    .reveal { font-family: -apple-system, "Segoe UI", Inter, sans-serif; }
+    .reveal h1,.reveal h2,.reveal h3 { text-transform:none; letter-spacing:-.01em; }
+    .reveal h1 { color:var(--vl2); }
+    .reveal section img { border-radius:8px; box-shadow:0 10px 40px rgba(0,0,0,.5); max-height:52vh; border:1px solid #333; }
+    .reveal .accent { color:var(--vl2); }
+    .reveal .crit { color:#ff7675; font-weight:700; }
+    .reveal table { font-size:.62em; }
+    .reveal table th { color:var(--vl2); }
+    .reveal .small { font-size:.7em; }
+    .reveal .tiny { font-size:.5em; color:#888; }
+    .reveal .obs::before{content:"OBSERVED — ";color:var(--vl2);font-weight:700;}
+    .reveal .prob::before{content:"PROBLEM — ";color:#ff7675;font-weight:700;}
+    .reveal .ship::before{content:"SHIP INSTEAD — ";color:#55efc4;font-weight:700;}
+    .reveal .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:center; }
+    .reveal .left { text-align:left; }
+    .reveal ul { width:100%; }
+    .reveal .badge{display:inline-block;background:var(--vl);color:#fff;border-radius:6px;padding:2px 10px;font-size:.5em;vertical-align:middle;}
+    .reveal .footer{position:fixed;bottom:8px;left:14px;font-size:.4em;color:#555;}
+  </style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+  <!-- Title -->
+  <section>
+    <h1>Vocallabs.ai</h1>
+    <h3>Product Teardown — 5 sharpest feedbacks</h3>
+    <p class="small">Yashvardhan · 31 May 2026 · Product Intern → PPO task</p>
+    <p class="tiny">Tested live: marketing site · logged-in app (fresh account, v2.1.6) · API docs · 8-competitor benchmark</p>
+  </section>
+
+  <!-- One-liner -->
+  <section data-background-color="#1a1a2e">
+    <h2>The one-liner</h2>
+    <p class="left">The technology looks strong — <span class="accent">99.9% uptime, sub-300ms, multi-model routing.</span></p>
+    <p class="left crit">But a brand-new user cannot actually use it. Activation is broken before value is ever seen.</p>
+    <p class="small left">So I didn't just review the website — I signed up, tried to build an agent and make a call, and <em>that journey</em> is the teardown.</p>
+  </section>
+
+  <!-- TL;DR table -->
+  <section>
+    <h2>5 feedbacks, prioritized</h2>
+    <table>
+      <tr><th>#</th><th>Pillar</th><th>Feedback</th><th>Sev</th></tr>
+      <tr><td>1</td><td>Features / Activation</td><td>New users hit <b>"Feature Locked"</b> on the agent builder — core loop unreachable</td><td class="crit">🔴</td></tr>
+      <tr><td>2</td><td>GTM / Pricing</td><td><b>/pricing 404s</b>, yet a real <b>₹1 = 1 credit</b> model lives in-app — two paywalls</td><td class="crit">🔴</td></tr>
+      <tr><td>3</td><td>Competition</td><td><b>"India-first" asserted, unquantified</b> & out-gunned by Sarvam/Gnani/Smallest</td><td>🟠</td></tr>
+      <tr><td>4</td><td>UX</td><td>Post-login = <b>14-item nav overload + passkey nag</b>, not guidance</td><td>🟡</td></tr>
+      <tr><td>5</td><td>Collaborations</td><td>Real distribution (<b>n8n, Chrome ext</b>) buried; <b>India AI stack</b> unused</td><td>🟡</td></tr>
+    </table>
+    <p class="tiny">One feedback per pillar — deliberately not all in one area.</p>
+  </section>
+
+  <!-- Finding 1 -->
+  <section>
+    <section data-background-color="#2d1b1b">
+      <h2>1 · A new user can't build an agent <span class="badge">🔴 CRITICAL</span></h2>
+      <p class="left obs">Sign up → try to build → <span class="crit">locked</span> → try a template → <span class="crit">locked</span> → try to call → needs an agent you can't make → <span class="crit">dead end.</span></p>
+      <p class="tiny">Pillar: Features / Services · Severity: Critical · Effort: Medium</p>
+    </section>
+    <section>
+      <h3>Agent Studio → "Feature Locked"</h3>
+      <img src="../screenshots/01-agent-studio-locked.png" alt="Agent Studio locked">
+    </section>
+    <section>
+      <h3>Templates → also locked</h3>
+      <img src="../screenshots/02-templates-locked.png" alt="Templates locked">
+    </section>
+    <section>
+      <h3>Quick Call needs an agent that can't exist</h3>
+      <img src="../screenshots/03-quickcall-needs-agent.png" alt="Quick call needs agent">
+    </section>
+    <section data-background-color="#1b2d1b">
+      <h3>Why it matters & what to ship</h3>
+      <p class="left prob">Time-to-first-value is <b>infinite</b> for self-serve. Contradicts the SDK/n8n/Chrome-ext PLG strategy. Retell gives $10 free credits; Smallest builds an agent in 5 min — devs activate there instead.</p>
+      <p class="left ship"><b>Ungate creation, gate consumption.</b> Let anyone build + test in sandbox; require credits only to dial real outbound. + one starter template + 5-min guided "first agent" flow.</p>
+      <p class="tiny left">Tradeoff: gating is likely intentional (cost/abuse) — but it's in the wrong place. Block <em>dialing</em>, not <em>building</em>.</p>
+    </section>
+  </section>
+
+  <!-- Finding 2 -->
+  <section>
+    <section data-background-color="#2d1b1b">
+      <h2>2 · Price is a 404 on web, a credit model in-app <span class="badge">🔴 CRITICAL</span></h2>
+      <p class="tiny">Pillar: GTM / Pricing · Severity: Critical · Effort: Low (highest ROI/effort)</p>
+    </section>
+    <section>
+      <div class="grid2">
+        <div><h3 class="crit">/pricing → 404</h3><img src="../screenshots/05-pricing-404.png" alt="404"></div>
+        <div><h3 class="accent">…but in-app: ₹1 = 1 credit</h3><img src="../screenshots/04-wallet-rupee-credit.png" alt="wallet"></div>
+      </div>
+    </section>
+    <section data-background-color="#1b2d1b">
+      <h3>Why it matters & what to ship</h3>
+      <p class="left prob">Self-serve buyers can't qualify themselves; rivals publish per-minute rates. <b>Two paywalls</b> (credits = usage, "plan access" = features) — pay ₹100 and you <em>still</em> can't build. Refund/trust risk.</p>
+      <p class="left ship"><b>Publish the pricing that already exists</b> + a credits calculator. Label the two paywalls plainly. Give free starter credits (à la Retell's $10).</p>
+      <p class="tiny left">₹-denominated prepaid credits is a <em>real</em> India-first advantage — currently invisible to anyone not logged in.</p>
+    </section>
+  </section>
+
+  <!-- Finding 3 -->
+  <section data-background-color="#1a1a2e">
+    <h2>3 · "India-first" is asserted, not proven <span class="badge">🟠 HIGH</span></h2>
+    <p class="left obs">Homepage leads with generic infra ("Sub-300ms", "Any Protocol. One API") — could be Twilio. The moat ("India-first") is <b>never quantified</b>: no language count, no demo.</p>
+    <p class="left prob">On paper a buyer sees <b>Sarvam</b> (22 langs, govt-backed), <b>Gnani</b> (40+/12 Indic, 30M daily calls), <b>Smallest</b> (&lt;100ms) — Vocallabs loses the comparison it should win.</p>
+    <p class="left ship"><b>Quantify the moat</b> + 30-sec code-mixed audio demo. <b>Pick a wedge</b>: collections/BFSI (Skit-style, but self-serve) or SMBs the enterprise players ignore.</p>
+    <p class="tiny">Full 8-competitor benchmark + Porter's Five Forces in research/competitors.md</p>
+  </section>
+
+  <!-- Finding 4 -->
+  <section>
+    <section data-background-color="#1a1a2e">
+      <h2>4 · Login succeeds, then overload — not onboarding <span class="badge">🟡 MED</span></h2>
+      <p class="left obs"><b>14-item sidebar</b>; three overlapping agent surfaces (Agent Studio vs Vocal Flows vs Templates); opaque names (vocalQR, EazyReach); a passkey nag <b>before any value</b>; no first-run guide.</p>
+    </section>
+    <section>
+      <h3>The empty, 14-item dashboard a new user lands on</h3>
+      <img src="../screenshots/06-dashboard-nav.png" alt="dashboard nav">
+    </section>
+    <section data-background-color="#1b2d1b">
+      <h3>Why it matters & what to ship</h3>
+      <p class="left prob">Compounds #1: maximum cognitive load at the exact moment the user is already stuck behind a locked builder. Reads as an internal power-tool, not a self-serve product.</p>
+      <p class="left ship"><b>First-run checklist</b> ("create agent → add number → test call") as the home screen until done. Group 14 items into Build / Run / Analyze / Manage. Defer passkey.</p>
+    </section>
+  </section>
+
+  <!-- Finding 5 -->
+  <section data-background-color="#1a1a2e">
+    <h2>5 · Distribution assets buried, India stack unused <span class="badge">🟡 MED</span></h2>
+    <p class="left obs">An <b>n8n node</b> (confirmed, GitHub Vocallabsai) and a <b>Chrome extension</b> exist — but aren't leveraged as growth channels. No Zapier/Make. <b>Bhashini / Sarvam / AI4Bharat</b> unused.</p>
+    <p class="left prob">A PLG product with no working self-serve activation <em>and</em> no leveraged distribution has no growth engine at all.</p>
+    <p class="left ship">Get the n8n node <b>verified</b> + publish template workflows (discovery surface). <b>Integrate Bhashini</b> → unlocks gov/BFSI procurement rivals can't match. Channel play for the collections wedge.</p>
+  </section>
+
+  <!-- Prioritization -->
+  <section>
+    <h2>Prioritization & Day-1 plan</h2>
+    <p class="small left">Sequenced by <b>"does it block value from being experienced at all?"</b> then effort.</p>
+    <table>
+      <tr><th>When</th><th>Ship</th></tr>
+      <tr><td><b>30 days</b></td><td>Publish /pricing (#2) · ungate sandbox agent + 1 template (#1) · first-run checklist (#4)</td></tr>
+      <tr><td><b>60 days</b></td><td>Instrument activation funnel & move first-agent rate · quantified India-first page + audio demo (#3)</td></tr>
+      <tr><td><b>90 days</b></td><td>Verified n8n listing + workflows & Bhashini spike (#5) · pick one wedge vertical</td></tr>
+    </table>
+    <p class="tiny">"Whoever joins owns and executes these from Day 1." — I'd start with the ₹0-cost, highest-leverage one: publish the price that already exists.</p>
+  </section>
+
+  <!-- Close -->
+  <section data-background-color="#1a1a2e">
+    <h2>Thank you</h2>
+    <p class="left">Net: <span class="accent">strong tech, broken first-mile.</span> Fix activation + price transparency and the rest of the funnel finally gets a chance to work.</p>
+    <p class="small">Full report: <code>VOCALLABS_PRODUCT_TEARDOWN.md</code> · evidence in <code>screenshots/</code> · research in <code>research/</code></p>
+  </section>
+
+</div></div>
+<div class="footer">Vocallabs Product Teardown · Yashvardhan</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>Reveal.initialize({ hash:true, slideNumber:'c/t', transition:'slide' });</script>
+</body>
+</html>
