@@ -174,4 +174,3 @@ Findings #1 (locked builder) and #2 (hidden pricing) are both Critical and both 
 - [`research/competitors.md`](research/competitors.md): 8-competitor benchmark plus Porter's Five Forces (cited)
 - [`research/collaborations.md`](research/collaborations.md): partnership theses across distribution, telephony, CRM, LLM, channel
 - [`research/docs-api.md`](research/docs-api.md): API-surface findings (two identity models, wallet billing, hidden Campaign/Marketplace)
-- Process notes and full session log in `plan/` (working directory, not part of the submission)

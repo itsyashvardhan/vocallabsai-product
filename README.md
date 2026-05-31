@@ -25,6 +25,3 @@
 
 ## How this was produced
 Logged into `app.vocallabs.ai` as a fresh account and traced the activation funnel; read `docs.vocallabs.ai` for the monetization model the site hides; benchmarked 8 competitors including India-native players. Every observed claim is screenshotted; competitor figures are cited; inferences (e.g., the credit-vs-plan paywall split) are labelled as such, not asserted as tested.
-
----
-*Working notes and full session log live in `plan/` (not part of the submission).*
