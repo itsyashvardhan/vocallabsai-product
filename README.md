@@ -9,7 +9,7 @@
 | | What | Open it |
 |---|---|---|
 | Report | The full teardown: 5 feedbacks, Observed, Problem, Ship-instead, prioritized | **[VOCALLABS_PRODUCT_TEARDOWN.md](VOCALLABS_PRODUCT_TEARDOWN.md)** |
-| Deck (PDF) | Submission-ready slides, one per page | **[deck/Vocallabs-Product-Teardown.pdf](deck/Vocallabs-Product-Teardown.pdf)** |
+| Deck (PDF) | Submission-ready slides, one per page | **[deck/vocallabs-teardown.pdf](deck/vocallabs-teardown.pdf)** |
 | Deck (live) | Same slides as an interactive HTML deck | [deck/index.html](deck/index.html) |
 | Figures and mockups | Activation-funnel diagram, impact/effort matrix, and design mockups of the proposed `/pricing` page plus first-run flow | [figures/](figures/) |
 | Evidence | Screenshots behind every observed claim | [screenshots/](screenshots/) |
@@ -24,7 +24,7 @@
 5. **Collaborations** `[Med]`: A real **n8n node plus Chrome extension** exist but are buried; the **India AI stack** (Bhashini/Sarvam/AI4Bharat) is unused.
 
 ## How this was produced
-Logged into `app.vocallabs.ai` as a fresh account (Releases v2.1.6, shown in the app sidebar) and traced the activation funnel; read `docs.vocallabs.ai` for the monetization model the site hides; benchmarked 8 competitors including India-native players. Every observed claim is screenshotted; competitor figures are cited; inferences (e.g., the credit-vs-plan paywall split) are labelled as such, not asserted as tested.
+Logged into `app.vocallabs.ai` as a fresh account and traced the activation funnel; read `docs.vocallabs.ai` for the monetization model the site hides; benchmarked 8 competitors including India-native players. Every observed claim is screenshotted; competitor figures are cited; inferences (e.g., the credit-vs-plan paywall split) are labelled as such, not asserted as tested.
 
 ---
 *Working notes and full session log live in `plan/` (not part of the submission).*
