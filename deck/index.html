@@ -6,50 +6,54 @@
   <title>Vocallabs.ai, Product Teardown</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { --vl:#6c5ce7; --vl2:#a29bfe; }
-    .reveal { font-family: -apple-system, "Segoe UI", Inter, sans-serif; }
-    .reveal h1,.reveal h2,.reveal h3 { text-transform:none; letter-spacing:-.01em; }
+    :root { --vl:#6c5ce7; --vl2:#a29bfe; --bg:#14141f; }
+    .reveal-viewport { background:var(--bg); }
+    .reveal { font-family:'Inter', -apple-system, "Segoe UI", sans-serif; }
+    .reveal h1,.reveal h2,.reveal h3 { text-transform:none; letter-spacing:-.02em; font-weight:800; }
     .reveal h1 { color:var(--vl2); }
-    .reveal section img { border-radius:8px; box-shadow:0 10px 40px rgba(0,0,0,.5); max-height:52vh; border:1px solid #333; }
-    .reveal .logo { max-height:90px; border:none; box-shadow:none; margin:8px auto 18px; display:block; }
+    .reveal h2 { color:#fff; }
+    .reveal section img { border-radius:8px; box-shadow:0 10px 40px rgba(0,0,0,.55); max-height:54vh; border:1px solid #2a2a3d; }
+    .reveal .logo { max-height:88px; border:none; box-shadow:none; margin:8px auto 20px; display:block; }
     .reveal .accent { color:var(--vl2); }
     .reveal .crit { color:#ff7675; font-weight:700; }
-    .reveal table { font-size:.62em; }
+    .reveal table { font-size:.6em; }
     .reveal table th { color:var(--vl2); }
     .reveal .small { font-size:.7em; }
-    .reveal .tiny { font-size:.5em; color:#888; }
+    .reveal .tiny { font-size:.5em; color:#8a8aa0; }
     .reveal .obs::before{content:"OBSERVED: ";color:var(--vl2);font-weight:700;}
     .reveal .prob::before{content:"PROBLEM: ";color:#ff7675;font-weight:700;}
     .reveal .ship::before{content:"SHIP INSTEAD: ";color:#55efc4;font-weight:700;}
     .reveal .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:center; }
     .reveal .left { text-align:left; }
-    .reveal ul { width:100%; }
-    .reveal .badge{display:inline-block;background:var(--vl);color:#fff;border-radius:6px;padding:2px 10px;font-size:.5em;vertical-align:middle;font-weight:700;letter-spacing:.04em;}
-    .reveal .footer{position:fixed;bottom:8px;left:14px;font-size:.4em;color:#555;}
+    .reveal .badge{display:inline-block;background:var(--vl);color:#fff;border-radius:6px;padding:2px 10px;font-size:.45em;vertical-align:middle;font-weight:700;letter-spacing:.05em;}
+    .reveal .footer{position:fixed;bottom:8px;left:14px;font-size:.4em;color:#444;}
   </style>
 </head>
 <body>
 <div class="reveal"><div class="slides">
 
-  <!-- Title -->
+  <!-- 1. Title -->
   <section>
     <img class="logo" src="../figures/vocallabs-logo.png" alt="Vocallabs">
     <h1>Product Teardown</h1>
     <h3>5 sharpest feedbacks</h3>
-    <p class="small">Yashvardhan Singh · 31 May 2026 · Product Intern</p>
-    <p class="tiny">Tested live: marketing site · logged-in app (fresh account, v2.1.6) · API docs · 8-competitor benchmark</p>
+    <p class="small">Yashvardhan Singh · May 2026 · Product Intern</p>
+    <p class="tiny">Tested live: marketing site · logged-in app (fresh account, Releases v2.1.6) · API docs · 8-competitor benchmark</p>
   </section>
 
-  <!-- One-liner -->
-  <section data-background-color="#1a1a2e">
+  <!-- 2. One-liner -->
+  <section>
     <h2>The one-liner</h2>
     <p class="left">The technology looks strong: <span class="accent">99.9% uptime, sub-300ms, multi-model routing.</span></p>
     <p class="left crit">But a brand-new user cannot actually use it. Activation is broken before value is ever seen.</p>
     <p class="small left">So I didn't just review the website. I signed up, tried to build an agent and make a call, and <em>that journey</em> is the teardown.</p>
   </section>
 
-  <!-- TL;DR table -->
+  <!-- 3. TL;DR -->
   <section>
     <h2>5 feedbacks, prioritized</h2>
     <table>
@@ -60,103 +64,99 @@
       <tr><td>4</td><td>UX</td><td>Post-login is <b>14-item nav overload plus passkey nag</b>, not guidance</td><td>Med</td></tr>
       <tr><td>5</td><td>Collaborations</td><td>Real distribution (<b>n8n, Chrome ext</b>) buried; <b>India AI stack</b> unused</td><td>Med</td></tr>
     </table>
-    <p class="tiny">One feedback per pillar, deliberately not all in one area.</p>
+    <p class="tiny">One feedback per pillar, deliberately not all in one area. #1 and #2 are both Critical: together they are why the first mile is broken.</p>
   </section>
 
-  <!-- Finding 1 -->
+  <!-- 4. Finding 1 intro -->
   <section>
-    <section data-background-color="#2d1b1b">
-      <h2>1 · A new user can't build an agent <span class="badge">CRITICAL</span></h2>
-      <p class="left obs">Sign up, try to build (<span class="crit">locked</span>), try a template (<span class="crit">locked</span>), try to call (needs an agent you can't make): <span class="crit">dead end.</span></p>
-      <p class="tiny">Pillar: Features / Services · Severity: Critical · Effort: Medium</p>
-    </section>
-    <section>
-      <h3>Agent Studio: "Feature Locked"</h3>
-      <img src="../screenshots/01-agent-studio-locked.png" alt="Agent Studio locked">
-    </section>
-    <section>
-      <h3>Templates: also locked</h3>
-      <img src="../screenshots/02-templates-locked.png" alt="Templates locked">
-    </section>
-    <section>
-      <h3>Quick Call needs an agent that can't exist</h3>
-      <img src="../screenshots/03-quickcall-needs-agent.png" alt="Quick call needs agent">
-    </section>
-    <section data-background-color="#1b2d1b">
-      <h3>Why it matters and what to ship</h3>
-      <p class="left prob">Time-to-first-value is <b>infinite</b> for self-serve. Contradicts the SDK/n8n/Chrome-ext PLG strategy. Retell gives $10 free credits; Smallest builds an agent in 5 min, so devs activate there instead.</p>
-      <p class="left ship"><b>Ungate creation, gate consumption.</b> Let anyone build and test in sandbox; require credits only to dial real outbound. Add one starter template and a 5-min guided "first agent" flow.</p>
-      <p class="tiny left">Tradeoff: gating is likely intentional (cost/abuse), but it's in the wrong place. Block <em>dialing</em>, not <em>building</em>.</p>
-    </section>
+    <h2>1 · A new user can't build an agent <span class="badge">CRITICAL</span></h2>
+    <p class="left obs">Sign up, try to build (<span class="crit">locked</span>), try a template (<span class="crit">locked</span>), try to call (needs an agent you can't make): <span class="crit">dead end.</span></p>
+    <p class="tiny">Pillar: Features / Services · Severity: Critical · Effort: Medium</p>
   </section>
-
-  <!-- Finding 2 -->
   <section>
-    <section data-background-color="#2d1b1b">
-      <h2>2 · Price is a 404 on web, a credit model in-app <span class="badge">CRITICAL</span></h2>
-      <p class="tiny">Pillar: GTM / Pricing · Severity: Critical · Effort: Low (highest ROI per effort)</p>
-    </section>
-    <section>
-      <div class="grid2">
-        <div><h3 class="crit">/pricing returns 404</h3><img src="../screenshots/05-pricing-404.png" alt="404"></div>
-        <div><h3 class="accent">But in-app: ₹1 = 1 credit</h3><img src="../screenshots/04-wallet-rupee-credit.png" alt="wallet"></div>
-      </div>
-    </section>
-    <section data-background-color="#1b2d1b">
-      <h3>Why it matters and what to ship</h3>
-      <p class="left prob">Self-serve buyers can't qualify themselves; rivals publish per-minute rates. <b>Two paywalls</b> (credits = usage, "plan access" = features): pay ₹100 and you <em>still</em> can't build. Refund/trust risk.</p>
-      <p class="left ship"><b>Publish the pricing that already exists</b> plus a credits calculator. Label the two paywalls plainly. Give free starter credits (like Retell's $10).</p>
-    </section>
-    <section>
-      <h3>Ship instead: the <span class="accent">/pricing</span> page that replaces the 404</h3>
-      <img src="../figures/fig3-pricing-mockup.png" alt="pricing mockup">
-    </section>
+    <h3>Agent Studio: "Feature Locked"</h3>
+    <img src="../screenshots/01-agent-studio-locked.png" alt="Agent Studio locked">
+  </section>
+  <section>
+    <h3>Templates: also locked</h3>
+    <img src="../screenshots/02-templates-locked.png" alt="Templates locked">
+  </section>
+  <section>
+    <h3>Quick Call needs an agent that can't exist</h3>
+    <img src="../screenshots/03-quickcall-needs-agent.png" alt="Quick call needs agent">
+    <p class="tiny">Agent dropdown shows only an "All Agents" placeholder; TOTAL AGENTS: 0, and none can be created.</p>
+  </section>
+  <section>
+    <h3>Why it matters and what to ship</h3>
+    <p class="left prob">Time-to-first-value is <b>infinite</b> for self-serve. Contradicts the SDK/n8n/Chrome-ext PLG strategy. Retell gives $10 free credits; Smallest builds an agent in 5 min, so devs activate there instead.</p>
+    <p class="left ship"><b>Ungate creation, gate consumption.</b> Let anyone build and test in sandbox; require credits only to dial real outbound. The current "Contact Admin" button is a dead-end for a self-serve user who has no admin.</p>
+    <p class="tiny left">Tradeoff: gating is likely intentional (cost/abuse), but it's in the wrong place. Block <em>dialing</em>, not <em>building</em>.</p>
+  </section>
+  <section>
+    <h3>Ship instead: a first-run activation flow (fixes #1 and #4)</h3>
+    <img src="../figures/fig4-firstrun-mockup.png" alt="first-run mockup">
   </section>
 
-  <!-- Finding 3 -->
-  <section data-background-color="#1a1a2e">
+  <!-- 5. Finding 2 -->
+  <section>
+    <h2>2 · Price is a 404 on web, a credit model in-app <span class="badge">CRITICAL</span></h2>
+    <p class="tiny">Pillar: GTM / Pricing · Severity: Critical · Effort: Low (highest ROI per effort)</p>
+  </section>
+  <section>
+    <div class="grid2">
+      <div><h3 class="crit">/pricing returns 404</h3><img src="../screenshots/05-pricing-404.png" alt="404"></div>
+      <div><h3 class="accent">But in-app: ₹1 = 1 credit</h3><img src="../screenshots/04-wallet-rupee-credit.png" alt="wallet"></div>
+    </div>
+  </section>
+  <section>
+    <h3>Why it matters and what to ship</h3>
+    <p class="left prob">Self-serve buyers can't qualify themselves; rivals publish per-minute rates. The lock copy implies <b>two paywalls</b> (credits = usage, "plan access" = features), so credits alone likely won't unlock the builder (inferred from copy, not purchased).</p>
+    <p class="left ship"><b>Publish the pricing that already exists</b>, including the credits-per-minute burn that even a logged-in user can't currently compute. Add a calculator. Give free starter credits (like Retell's $10).</p>
+  </section>
+  <section>
+    <h3>Ship instead: the <span class="accent">/pricing</span> page that replaces the 404</h3>
+    <img src="../figures/fig3-pricing-mockup.png" alt="pricing mockup">
+  </section>
+
+  <!-- 6. Finding 3 -->
+  <section>
     <h2>3 · "India-first" is asserted, not proven <span class="badge">HIGH</span></h2>
-    <p class="left obs">Homepage leads with generic infra ("Sub-300ms", "Any Protocol. One API") that could be Twilio. The moat ("India-first") is <b>never quantified</b>: no language count, no demo.</p>
+    <p class="left obs">Homepage leads with generic infra ("Sub-300ms", "Any Protocol. One API") that could be Twilio. The moat ("India-first") is <b>never quantified</b>, and there's <b>no clear ICP</b>: dev, SMB, and enterprise messaging are mixed.</p>
     <p class="left prob">On paper a buyer sees <b>Sarvam</b> (22 langs, govt-backed), <b>Gnani</b> (40+/12 Indic, 30M daily calls), <b>Smallest</b> (under 100ms), and Vocallabs loses the comparison it should win.</p>
-    <p class="left ship"><b>Quantify the moat</b> plus a 30-sec code-mixed audio demo. <b>Pick a wedge</b>: collections/BFSI (Skit-style, but self-serve) or SMBs the enterprise players ignore.</p>
+    <p class="left ship"><b>Quantify the moat</b> plus a 30-sec code-mixed audio demo. <b>Name one ICP</b> and lead with it: collections/BFSI (Skit-style, but self-serve) or SMBs the enterprise players ignore.</p>
     <p class="tiny">Full 8-competitor benchmark plus Porter's Five Forces in research/competitors.md</p>
   </section>
 
-  <!-- Finding 4 -->
+  <!-- 7. Finding 4 -->
   <section>
-    <section data-background-color="#1a1a2e">
-      <h2>4 · Login succeeds, then overload, not onboarding <span class="badge">MED</span></h2>
-      <p class="left obs"><b>14-item sidebar</b>; three overlapping agent surfaces (Agent Studio vs Vocal Flows vs Templates); opaque names (vocalQR, EazyReach); a passkey nag <b>before any value</b>; no first-run guide.</p>
-    </section>
-    <section>
-      <h3>The empty, 14-item dashboard a new user lands on</h3>
-      <img src="../screenshots/06-dashboard-nav.png" alt="dashboard nav">
-    </section>
-    <section data-background-color="#1b2d1b">
-      <h3>Why it matters and what to ship</h3>
-      <p class="left prob">Compounds #1: maximum cognitive load at the exact moment the user is already stuck behind a locked builder. Reads as an internal power-tool, not a self-serve product.</p>
-      <p class="left ship"><b>First-run checklist</b> as the home screen until done. Group 14 items into Build / Run / Analyze / Manage. Defer passkey.</p>
-    </section>
-    <section>
-      <h3>Ship instead: first-run activation flow (fixes #1 and #4)</h3>
-      <img src="../figures/fig4-firstrun-mockup.png" alt="first-run mockup">
-    </section>
+    <h2>4 · Login succeeds, then overload, not onboarding <span class="badge">MED</span></h2>
+    <p class="left obs"><b>14 nav items</b> (about 10 above the fold, rest below); three overlapping agent surfaces (Agent Studio vs Vocal Flows vs Templates); opaque names (vocalQR, EazyReach); a passkey nag <b>before any value</b>; no first-run guide.</p>
+  </section>
+  <section>
+    <h3>The empty dashboard a new user lands on</h3>
+    <img src="../screenshots/06-dashboard-nav.png" alt="dashboard nav">
+  </section>
+  <section>
+    <h3>Why it matters and what to ship</h3>
+    <p class="left prob">Compounds #1: maximum cognitive load at the exact moment the user is already stuck behind a locked builder. Reads as an internal power-tool, not a self-serve product.</p>
+    <p class="left ship"><b>First-run checklist</b> as the home screen until done. Group 14 items into Build / Run / Analyze / Manage. Defer passkey.</p>
   </section>
 
-  <!-- Finding 5 -->
-  <section data-background-color="#1a1a2e">
+  <!-- 8. Finding 5 -->
+  <section>
     <h2>5 · Distribution assets buried, India stack unused <span class="badge">MED</span></h2>
     <p class="left obs">An <b>n8n node</b> (confirmed, GitHub Vocallabsai) and a <b>Chrome extension</b> exist, but aren't leveraged as growth channels. No Zapier/Make. <b>Bhashini / Sarvam / AI4Bharat</b> unused.</p>
     <p class="left prob">A PLG product with no working self-serve activation <em>and</em> no leveraged distribution has no growth engine at all.</p>
     <p class="left ship">Get the n8n node <b>verified</b> plus publish template workflows (discovery surface). <b>Integrate Bhashini</b> to unlock gov/BFSI procurement rivals can't match. Channel play for the collections wedge.</p>
   </section>
 
-  <!-- Prioritization -->
+  <!-- 9. Prioritization -->
   <section>
     <h2>Prioritization</h2>
-    <img src="../figures/fig2-priority-matrix.png" alt="priority matrix" style="max-height:62vh">
+    <img src="../figures/fig2-priority-matrix.png" alt="priority matrix" style="max-height:64vh">
   </section>
 
+  <!-- 10. Day-1 plan -->
   <section>
     <h2>Day-1 plan</h2>
     <p class="small left">Sequenced by <b>"does it block value from being experienced at all?"</b> then effort.</p>
@@ -169,8 +169,8 @@
     <p class="tiny">"Whoever joins owns and executes these from Day 1." I'd start with the ₹0-cost, highest-leverage one: publish the price that already exists.</p>
   </section>
 
-  <!-- Close -->
-  <section data-background-color="#1a1a2e">
+  <!-- 11. Close -->
+  <section>
     <img class="logo" src="../figures/vocallabs-logo.png" alt="Vocallabs">
     <h2>Thank you</h2>
     <p class="left">Net: <span class="accent">strong tech, broken first-mile.</span> Fix activation and price transparency, and the rest of the funnel finally gets a chance to work.</p>
@@ -180,6 +180,6 @@
 </div></div>
 <div class="footer">Vocallabs Product Teardown · Yashvardhan Singh</div>
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
-<script>Reveal.initialize({ hash:true, slideNumber:'c/t', transition:'slide' });</script>
+<script>Reveal.initialize({ hash:true, slideNumber:'c/t', transition:'none', center:true, pdfMaxPagesPerSlide:1, pdfSeparateFragments:false });</script>
 </body>
 </html>

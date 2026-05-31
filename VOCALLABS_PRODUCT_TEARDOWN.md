@@ -11,6 +11,8 @@
 
 I signed up as a real self-serve user (phone-OTP), landed in the dashboard with 0 credits, and tried to do the one thing the product exists for: build an agent and make a call. I could not, and that journey is the teardown. I also read the public API docs (to find the monetization model the website hides) and benchmarked 8 competitors including the India-native players, since "India-first" is the stated moat. Supporting evidence: [`screenshots/`](screenshots/) and [`research/`](research/).
 
+**Scope boundary (deliberate):** because the locked builder prevented me from ever placing a call, I could not assess the product's actual voice quality, the "human-like fluency," the emotion/intent/tone analytics, or the hybrid AI-to-human handoff that the brief sells. This teardown is therefore about the **activation funnel**, the journey that decides whether anyone reaches those features at all. That is the right place to look first: if new users can't get in, the quality of what's inside never gets evaluated by them either.
+
 ---
 
 ## TL;DR, the 5 feedbacks, prioritized
@@ -34,7 +36,7 @@ On a fresh account I followed the only sensible path, create an agent, and hit a
   ![Agent Studio locked](screenshots/01-agent-studio-locked.png)
 - **Agents → Templates → also "Feature Locked."** All three Agents sub-items (Studio, Folders, Templates) show a lock icon in the sidebar.
   ![Templates locked](screenshots/02-templates-locked.png)
-- **Quick Call → AI Agent Call →** modal says *"Select an agent and enter the phone number to start"*, but the agent dropdown is **empty** (none exist, and none can be created). `Make Call` is unreachable.
+- **Quick Call → AI Agent Call →** modal says *"Select an agent and enter the phone number to start"*, but the agent dropdown shows only an "All Agents" placeholder with nothing to select (the dashboard reads **TOTAL AGENTS: 0**, and none can be created). `Make Call` is therefore unreachable.
   ![Quick Call needs an agent](screenshots/03-quickcall-needs-agent.png)
 
 **The funnel, visualized:**
@@ -54,7 +56,7 @@ This is the single most damaging issue, because it nullifies everything upstream
 ### (c) Ship instead
 1. **Ungate creation, gate consumption.** Let anyone build an agent and test it in a sandbox (the "Production Only" toggle already exists in the call modal, lean on it). Require credits/verification only to dial real outbound numbers.
 2. **One unlocked starter template plus a 5-minute guided "Create your first agent" flow** (Smallest-style: 4 questions to a working agent). Activation is the metric.
-3. **If a hard gate must stay, make it self-clearing:** an in-app "Request access, instant approval for verified email/UPI" instead of a dead "Contact your account administrator" string with no admin in sight.
+3. **If a hard gate must stay, make it self-clearing.** Today the lock offers a "Contact Admin" button, a dead-end for a self-serve user who *is* the admin and has no one to contact. Replace it with an in-app "Request access, instant approval for a verified email/UPI" path.
 
 **Mockup of the fix, a first-run activation flow** (also addresses Finding #4):
 
@@ -69,7 +71,7 @@ This is the single most damaging issue, because it nullifies everything upstream
 - Yet **inside the app**, the Wallet reveals the real model: **"1₹ = 1 credit,"** top-up tiers 100/500/1k/5k, **minimum ₹100**.
   ![Wallet: 1 rupee = 1 credit](screenshots/04-wallet-rupee-credit.png)
 - The API confirms a metered wallet (`wallet` / "Get Wallet Balance" endpoints, see [`research/docs-api.md`](research/docs-api.md)).
-- **Two distinct paywalls exist:** credits (usage) **and** a separate "plan/admin access" gate on Agent Studio. Buying credits does **not** unlock the builder.
+- **Two distinct paywalls appear to exist:** credits (usage) **and** a separate "plan/admin access" gate on Agent Studio. The lock copy ("upgrade your current plan") indicates that topping up credits alone would not unlock the builder. *Inference, not tested:* my account had 0 credits and I did not pay, so this is read from the lock copy rather than confirmed by purchasing. Either way it points to a confusing split worth fixing.
 
 ### (b) Problem
 - **Self-serve buyers can't qualify themselves.** Retell ($0.07/min + $10 free), Bland ($0.09/min), and Smallest (₹/$49/$1,999) all let a prospect price the decision in seconds. Vocallabs forces a sales conversation for a number it has already decided (₹1/credit) and already shows logged-in users. Hiding it adds friction and signals "expensive/unsure," with zero upside.
@@ -77,7 +79,7 @@ This is the single most damaging issue, because it nullifies everything upstream
 - It also undercuts the **India-first** story: ₹-denominated, prepaid-credit pricing is a real local-market advantage (no forced USD card), and it is invisible to every prospect who hasn't already logged in.
 
 ### (c) Ship instead
-1. **Publish the pricing that already exists.** A `/pricing` page: "₹1 = 1 credit, ₹100 minimum," a "1 minute ≈ X credits" calculator, and the credit cost of a typical call. This is a one-week content/marketing lift, not a strategy project.
+1. **Publish the pricing that already exists, including the part even logged-in users can't compute.** A `/pricing` page with "₹1 = 1 credit, ₹100 minimum" plus the missing number: **credits burned per minute of call.** I could verify ₹1 = 1 credit and the ₹100 floor, but not the per-minute burn (no call could be placed), and a logged-in user can't compute it either. Publish the rate and a "1 minute ≈ X credits" calculator. This is a one-week content/marketing lift, not a strategy project.
 2. **Collapse or clearly label the two paywalls:** "Credits = how much you talk. Plan = what you can build." If the plan gate stays, surface it on the pricing page with a self-serve upgrade path.
 3. **Free starter credits** (mirror Retell's $10) so activation isn't blocked on a payment **and** a feature unlock simultaneously.
 
@@ -92,6 +94,7 @@ This is the single most damaging issue, because it nullifies everything upstream
 ### (a) Observed
 - The homepage leads with **generic infrastructure specs**: "99.9% Uptime," "Sub-300ms," "Any Protocol. One API." These describe Twilio/Vapi too; they don't say why Vocallabs.
 - The stated moat is **"India-first: tuned for local languages, accents & workflows,"** but the site **never quantifies it** (no language count, no accent/code-mixing demo, no benchmark).
+- **No clear ICP.** The same site mixes developer messaging ("Any Protocol. One API," SDK) with business-buyer use-cases (FAQ/booking/collections bots) and enterprise infra claims, signalling "voice AI for everyone." For the GTM-and-ICP pillar this is the deeper miss: a prospect can't tell whether they (a solo developer, an SMB owner, or a BFSI buyer) are the intended customer.
 - Meanwhile the India-native field is crowded and specific (full data in [`research/competitors.md`](research/competitors.md)):
   - **Sarvam AI:** 22 Indian languages, **government-backed** (GoI, Nvidia, Yotta), "pilot to production in under 24h."
   - **Gnani.ai:** 40+ languages including **12+ Indic**, **30M+ daily voice conversations**, enterprise voice biometrics.
@@ -102,7 +105,7 @@ The one thing that could differentiate Vocallabs is the one thing it doesn't sub
 
 ### (c) Ship instead
 1. **Quantify the moat, loudly:** "X Indian languages, Hindi-English code-mixing handled, regional-accent tuned" with a **30-second live audio demo** of a code-mixed call. Show, don't assert.
-2. **Pick a wedge instead of "enterprise voice AI for everyone."** Two credible options: (a) collections/BFSI like Skit.ai but self-serve, or (b) Indian SMBs (clinics, real-estate, coaching) that Sarvam/Gnani's 6 to 9 month enterprise motion ignores, and that the ₹-credit model is perfect for.
+2. **Name one ICP and lead with it, instead of "enterprise voice AI for everyone."** Two credible options: (a) collections/BFSI like Skit.ai but self-serve, or (b) Indian SMBs (clinics, real-estate, coaching) that Sarvam/Gnani's 6 to 9 month enterprise motion ignores, and that the ₹-credit, self-serve model is perfect for. Pick one, put it in the hero, and let everything else be secondary.
 3. **Reframe latency/uptime as proof points under an outcome headline**, not the headline itself ("Recover 30% more overdue payments" beats "Sub-300ms").
 
 ---
@@ -110,7 +113,7 @@ The one thing that could differentiate Vocallabs is the one thing it doesn't sub
 ## 4. UX: login succeeds, then you meet overload instead of onboarding  `[Med]`
 
 ### (a) Observed
-- The left nav has **14 top-level items**: Home, Agents, Call Audits, Contacts, Channels, Campaign, vocalQR, Analytics, Phone Numbers, Library, Transactions, Vocal Flows, EazyReach, Settings ([dashboard screenshot](screenshots/06-dashboard-nav.png)).
+- The left nav carries **14 top-level items** (about 10 visible above the fold in the [dashboard screenshot](screenshots/06-dashboard-nav.png), the rest below it): Home, Agents, Call Audits, Contacts, Channels, Campaign, vocalQR, Analytics, Phone Numbers, Library, Transactions, Vocal Flows, EazyReach, Settings.
 - **Three overlapping agent-ish surfaces:** "Agent Studio," "Vocal Flows," "Templates," with no explanation of how they differ.
 - **Opaque brand-named features:** "vocalQR," "EazyReach," with no tooltip or first-run hint.
 - A **"Secure Your Account / Enable Passkey" nag fires immediately**, before the user has created anything.
@@ -148,6 +151,8 @@ A product whose GTM is self-serve/PLG, but which (per Finding #1) has no working
 I sequenced by "does it block value from being experienced at all?" then by effort:
 
 ![Impact vs effort prioritization matrix](figures/fig2-priority-matrix.png)
+
+Findings #1 (locked builder) and #2 (hidden pricing) are both Critical and both compound the same thesis: the **first mile is broken.** I keep them separate on purpose, one is product-gating, the other is pricing-discovery, and they have different owners and fixes, but together they are the reason a new user neither reaches value nor can judge whether it's worth paying for.
 
 | Priority | Finding | Why first | Effort |
 |---|---|---|---|
