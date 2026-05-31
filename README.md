@@ -9,7 +9,7 @@
 | | What | Open it |
 |---|---|---|
 | Report | The full teardown: 5 feedbacks, Observed, Problem, Ship-instead, prioritized | **[VOCALLABS_PRODUCT_TEARDOWN.md](VOCALLABS_PRODUCT_TEARDOWN.md)** |
-| Deck (PDF) | Submission-ready slides, one per page | **[deck/vocallabs-teardown.pdf](deck/vocallabs-teardown.pdf)** |
+| Deck (PDF) | Submission-ready slides, one per page | **[deck/Vocallabsai_YashvardhanSingh.pdf](deck/Vocallabsai_YashvardhanSingh.pdf)** |
 | Deck (live) | Same slides as an interactive HTML deck | [deck/index.html](deck/index.html) |
 | Figures and mockups | Activation-funnel diagram, impact/effort matrix, and design mockups of the proposed `/pricing` page plus first-run flow | [figures/](figures/) |
 | Evidence | Screenshots behind every observed claim | [screenshots/](screenshots/) |
