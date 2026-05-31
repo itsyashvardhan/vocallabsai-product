@@ -1,6 +1,6 @@
 # Vocallabs.ai, Product Teardown
 
-> Product Intern to PPO task. **5 sharpest feedbacks** across the product pillars, from actually using the product as a new customer.
+> **5 sharpest feedbacks** across the product pillars, from actually using the product as a new customer.
 
 **The one-liner:** the technology looks strong (99.9% uptime, sub-300ms, multi-model routing), but **a brand-new user cannot actually use it.** Activation is broken before value is ever seen. So this teardown isn't a website review; I signed up, tried to build an agent and make a call, hit a wall, and that journey is the finding.
 
