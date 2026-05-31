@@ -1,6 +1,6 @@
 # Vocallabs.ai, Product Teardown
 
-**By:** Yashvardhan Singh • **Date:** 31 May 2026 • **For:** Vocallabs Product (Intern to PPO task)
+**By:** Yashvardhan Singh • **Date:** 31 May 2026 • **For:** Vocallabs Product (Intern)
 **Surfaces used:** `vocallabs.ai` (marketing), `app.vocallabs.ai` (logged-in product, fresh account), `docs.vocallabs.ai` (API)
 
 > **How to read this:** 5 feedbacks, one per product pillar (GTM, Pricing, Competition, UX, Collaborations), each as Observed, Problem, Ship instead, ordered by priority. Every claim is either screenshotted (`screenshots/`) or cited (`research/`). The honest one-liner: the technology looks strong, but a brand-new user cannot actually use it. Activation is broken before value is ever seen.
